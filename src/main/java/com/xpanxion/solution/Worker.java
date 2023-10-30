@@ -99,8 +99,9 @@ public class Worker {
 
     public void ex9(){
         List<Product>productList = DataAccess.getProducts().stream()
-        .map(f -> new Product(f.getId(), f.getDepartmentId(), DataAccess.getDepartments().get(f.getDepartmentId()-1).getName(), f.getName(), f.getPrice() + 2, f.getSku()))
+        .map(f -> new Product(f.getId(), f.getDepartmentId(), DataAccess.getDepartments().get(f.getDepartmentId()-1).getName(), f.getName(), f.getPrice(), f.getSku()))
         .collect(Collectors.toList());
+        productList =  productList.stream().filter(f->f.getDepartmentName().equals("Electronics")).map(f-> new Product(f.getId(), f.getDepartmentId(), f.getDepartmentName(), f.getName(), f.getPrice()+2, f.getSku())).collect(Collectors.toList());
         Double sum = productList.stream().filter(Product->Product.getDepartmentName().equals("Electronics")).mapToDouble(Product::getPrice).sum();
         System.out.println("$" +sum);
     }
